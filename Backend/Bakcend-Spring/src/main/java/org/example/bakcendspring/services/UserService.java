@@ -12,17 +12,15 @@ import org.example.bakcendspring.services.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService implements CrudService<Long, UserRequest, UserResponse, FilterUserDto> {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    private UserEntity findById(Long id) {
+    public UserEntity findById(Long id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Books not found with id: " + id)
+                () -> new EntityNotFoundException("User not found with id: " + id)
         );
     }
 
@@ -32,13 +30,14 @@ public class UserService implements CrudService<Long, UserRequest, UserResponse,
         return userMapper.toUserDto(findById(id));
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public List<UserResponse> getAll(FilterUserDto filterUserDto) {
-        return userRepository.findByFilters(filterUserDto.userName(), filterUserDto.fullName())
-                .stream()
-                .map(userMapper::toUserDto)
-                .toList();
+    public UserResponse getAll(FilterUserDto filterUserDto) {
+        var entity = userRepository
+                .findByFilters(filterUserDto.userName(), filterUserDto.fullName(), filterUserDto.email()).orElseThrow(
+                        () -> new EntityNotFoundException("user not found")
+                );
+
+        return userMapper.toUserDto(entity);
     }
 
     @Override

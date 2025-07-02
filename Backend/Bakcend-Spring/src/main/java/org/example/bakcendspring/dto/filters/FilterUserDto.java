@@ -4,5 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record FilterUserDto(String userName,
-                            String fullName) {
+                            String fullName,
+                            String email) {
 }

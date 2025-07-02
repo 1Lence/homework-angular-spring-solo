@@ -6,6 +6,7 @@ import org.example.bakcendspring.dto.request.BookRequest;
 import org.example.bakcendspring.dto.filters.FilterBookDto;
 import org.example.bakcendspring.dto.response.BookResponse;
 import org.example.bakcendspring.entity.BookEntity;
+import org.example.bakcendspring.entity.domain.Status;
 import org.example.bakcendspring.repositories.BookRepository;
 import org.example.bakcendspring.services.base.CrudService;
 import org.example.bakcendspring.services.mappers.BookMapper;
@@ -17,10 +18,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BookService implements CrudService<Long, BookRequest, BookResponse, FilterBookDto> {
+
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    private BookEntity findById(Long id) {
+    public BookEntity findById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Books not found with id: " + id)
         );
@@ -32,7 +34,6 @@ public class BookService implements CrudService<Long, BookRequest, BookResponse,
         return bookMapper.toBookDtoResponse(findById(id));
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<BookResponse> getAll(FilterBookDto filter) {
         return bookRepository.findByFilters(filter.title(), filter.author(), filter.status(), filter.publishedDate())
@@ -62,5 +63,11 @@ public class BookService implements CrudService<Long, BookRequest, BookResponse,
     @Transactional
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void changeStatus(BookEntity bookEntity, Status status) {
+        bookEntity.setStatus(status);
+        bookRepository.save(bookEntity);
     }
 }

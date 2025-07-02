@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.bakcendspring.entity.domain.LoanId;
+import org.example.bakcendspring.dto.request.LoanRequest;
 
 import java.time.LocalDate;
 
@@ -15,20 +15,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "loan")
-@IdClass(LoanId.class)
 public class LoanEntity {
     @Id
-    @ManyToOne
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
-    @Builder.Default
-    private BookEntity book = new BookEntity();
-    @Id
-    @ManyToOne
+    private BookEntity book;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @Builder.Default
-    private UserEntity user = new UserEntity();
-    @Column(name = "loan_date", nullable = false)
-    private LocalDate loanDate;
+    private UserEntity user;
+    @Column(name = "loan_date")
+    private LocalDate loanDate = LocalDate.now();
     @Column(name = "return_date", nullable = false)
     private LocalDate returnDate;
 }

@@ -17,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserResponse> getAllUsers(@RequestBody FilterUserDto filter) {
+    public UserResponse getAllUsers(@RequestBody FilterUserDto filter) {
         return userService.getAll(filter);
     }
 
