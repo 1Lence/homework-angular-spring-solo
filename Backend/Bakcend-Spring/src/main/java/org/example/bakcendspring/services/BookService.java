@@ -28,6 +28,14 @@ public class BookService implements CrudService<Long, BookRequest, BookResponse,
         );
     }
 
+    @Transactional(readOnly = true)
+    public List<BookResponse> findAll() {
+        return bookRepository.findAll()
+                .stream()
+                .map(bookMapper::toBookDtoResponse)
+                .toList();
+    }
+
     @Override
     @Transactional(readOnly = true)
     public BookResponse getById(Long id) {
@@ -35,7 +43,7 @@ public class BookService implements CrudService<Long, BookRequest, BookResponse,
     }
 
     @Transactional(readOnly = true)
-    public List<BookResponse> getAll(FilterBookDto filter) {
+    public List<BookResponse> getAllFiltered(FilterBookDto filter) {
         return bookRepository.findByFilters(filter.title(), filter.author(), filter.status(), filter.publishedDate())
                 .stream()
                 .map(bookMapper::toBookDtoResponse)

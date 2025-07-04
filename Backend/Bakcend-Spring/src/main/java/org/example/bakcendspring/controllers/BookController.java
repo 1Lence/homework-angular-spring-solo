@@ -13,12 +13,21 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/books")
+@CrossOrigin(
+        origins = "*",
+        allowedHeaders = "*"
+)
 public class BookController {
     private final BookService bookService;
 
-    @GetMapping
+    @GetMapping("/filtered")
     public List<BookResponse> getAllBooks(@RequestBody FilterBookDto filter) {
-        return bookService.getAll(filter);
+        return bookService.getAllFiltered(filter);
+    }
+
+    @GetMapping
+    public List<BookResponse> findAll() {
+        return bookService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -36,8 +45,8 @@ public class BookController {
         bookService.update(bookRequest, id);
     }
 
-    @DeleteMapping
-    public void delete(Long id) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         bookService.delete(id);
     }
 }

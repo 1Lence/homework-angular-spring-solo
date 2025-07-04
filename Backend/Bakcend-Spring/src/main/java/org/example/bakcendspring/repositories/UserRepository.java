@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByFilters(@Param("userName") String userName,
                                       @Param("fullName") String fullName,
                                       @Param("email") String email);
+
+    UserEntity findByUserNameOrEmail(String userName, String email);
 }

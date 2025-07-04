@@ -1,5 +1,6 @@
 package org.example.bakcendspring.exception.controllers;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.example.bakcendspring.exception.BookBorrowed;
 import org.springframework.http.HttpStatus;
@@ -18,5 +19,10 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(BookBorrowed.class)
     public ResponseEntity<?> handleBorrowedException(BookBorrowed e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<?> handleExistsException(EntityExistsException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }

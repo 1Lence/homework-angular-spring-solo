@@ -1,0 +1,122 @@
+<table
+  tuiTable
+  [size]="size"
+  [style.width.rem]="58"
+>
+  <thead>
+  <tr>
+    <th tuiTh>Title</th>
+    <th tuiTh>Author</th>
+    <th tuiTh>Status</th>
+    <th tuiTh>Date</th>
+    <th tuiTh>Actions</th>
+  </tr>
+  </thead>
+  <tbody tuiTbody>
+    @for (book of books.value(); track book.id) {
+      <tr>
+        <td tuiTd>
+          <div [tuiCell]="size">
+          <span tuiTitle>
+            {{ book.title }}
+          </span>
+          </div>
+        </td>
+        <td tuiTd>
+          <div [tuiCell]="size">
+          <span tuiTitle>
+            {{ book.author }}
+          </span>
+          </div>
+        </td>
+        <td tuiTd>
+        <span tuiStatus
+              [style.color]="book.status === Status.AVAILABLE ? 'var(--tui-status-positive)' : 'var(--tui-status-negative)'">
+          {{ book.status }}
+        </span>
+        </td>
+        <td tuiTd>
+          <span>{{ book.publishedDate }}</span>
+        </td>
+        <td tuiTd>
+        <span tuiStatus>
+          <button
+            size="m"
+            tuiButton
+            type="button"
+            (click)="onDelete(book)"
+          >
+            Delete
+            </button>
+
+          	<button
+              size="m"
+              tuiButton
+              type="button"
+              (click)="showDialog(book)"
+            >
+            Edit
+            </button>
+        </span>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<ng-template
+  let-observer
+  [tuiDialogOptions]="{label: 'Окно изменения книги', size: 's'}"
+  [(tuiDialog)]="open"
+>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="observer.complete()">
+    <p>Введите значения, которые хотите поменять</p>
+    <div class="wrapper">
+      <tui-input
+        formControlName="title"
+        tuiAutoFocus
+      >
+        Название книги
+      </tui-input>
+    </div >
+    <div class="wrapper">
+      <tui-input
+        formControlName="author"
+        tuiAutoFocus
+      >
+        Автор
+      </tui-input>
+    </div>
+    <div class="wrapper">
+      <tui-input
+        formControlName="isbn"
+        tuiAutoFocus
+      >
+        ISBN
+      </tui-input>
+    </div>
+    <div class="wrapper">
+      <tui-radio-list
+        size="s"
+        [items]="statusOptions"
+        [style.flex-direction]="'row'"
+        [style.width]="'max-content'"
+        formControlName="status"
+      />
+    </div>
+    <div class="wrapper">
+      <app-date-input [control]="form.controls.publishedDate"></app-date-input>
+    </div>
+      <p>
+        <button
+          tuiButton
+          type="submit"
+          (click)="save()"
+        >
+          Save
+        </button>
+      </p>
+  </form>
+</ng-template>

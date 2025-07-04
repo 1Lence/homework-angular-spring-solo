@@ -1,0 +1,64 @@
+<form
+  tuiAppearance="floating"
+  tuiCardLarge
+  tuiForm="m"
+  [formGroup]="form"
+  [style.max-width.rem]="32"
+>
+  <header tuiHeader>
+    <h2 tuiTitle>
+      Создание нового пользователя
+    </h2>
+  </header>
+  <tui-textfield>
+    <label tuiLabel>UserCreateDto Name</label>
+    <input
+      formControlName="userName"
+      placeholder="Your Job/Game NickName"
+      tuiTextfield
+    />
+  </tui-textfield>
+  <tui-error
+    formControlName="userName"
+    [error]="[] | tuiFieldError | async"
+  />
+
+  <tui-textfield>
+    <label tuiLabel>Full Name</label>
+    <input
+      formControlName="fullName"
+      placeholder="Example Name"
+      tuiTextfield
+    />
+  </tui-textfield>
+  <tui-error
+    formControlName="fullName"
+    [error]="[] | tuiFieldError  | async"
+  />
+    <tui-textfield >
+      <label tuiLabel>Email</label>
+      <input
+        formControlName="email"
+        placeholder="example@gmail.com"
+        tuiTextfield
+        type="text"
+      />
+    </tui-textfield>
+  <footer>
+      <button
+        appearance="secondary"
+        tuiButton
+        type="button"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        tuiButton
+        type="submit"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+  </footer>
+</form>

@@ -8,11 +8,13 @@ import org.example.bakcendspring.services.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
+@CrossOrigin(
+        origins = "*",
+        allowedHeaders = "*"
+)
 public class UserController {
     private final UserService userService;
 

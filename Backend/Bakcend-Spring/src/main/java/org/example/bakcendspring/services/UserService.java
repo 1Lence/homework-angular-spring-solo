@@ -1,5 +1,6 @@
 package org.example.bakcendspring.services;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.bakcendspring.dto.filters.FilterUserDto;
@@ -18,6 +19,7 @@ public class UserService implements CrudService<Long, UserRequest, UserResponse,
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    @Transactional(readOnly = true)
     public UserEntity findById(Long id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("User not found with id: " + id)
@@ -43,6 +45,12 @@ public class UserService implements CrudService<Long, UserRequest, UserResponse,
     @Override
     @Transactional
     public void create(UserRequest userRequest) {
+        var entity = userRepository.findByUserNameOrEmail(userRequest.userName(),userRequest.email());
+
+        if (entity != null) {
+            throw new EntityExistsException("Пользователь с таким ником или почтой уже существует");
+        }
+
         userRepository.save(userMapper.toUserEntity(userRequest));
     }
 

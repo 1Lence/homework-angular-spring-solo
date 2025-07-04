@@ -1,0 +1,83 @@
+<form
+  tuiAppearance="floating"
+  tuiCardLarge
+  tuiForm="m"
+  [formGroup]="form"
+  [style.max-width.rem]="32"
+>
+  <header tuiHeader>
+    <h2 tuiTitle>
+      Создание новой книги
+    </h2>
+  </header>
+  <tui-textfield>
+    <label tuiLabel>Title</label>
+    <input
+      formControlName="title"
+      placeholder="Название книги"
+      tuiTextfield
+    />
+  </tui-textfield>
+  <tui-error
+    formControlName="title"
+    [error]="[] | tuiFieldError | async"
+  />
+
+  <tui-textfield>
+    <label tuiLabel>Author</label>
+    <input
+      formControlName="author"
+      placeholder="Имя инициалы автора"
+      tuiTextfield
+    />
+  </tui-textfield>
+  <tui-error
+    formControlName="author"
+    [error]="[] | tuiFieldError  | async"
+  />
+
+  <tui-textfield>
+    <label tuiLabel>ISBN</label>
+    <input
+      formControlName="isbn"
+      placeholder="X-XXX-XXXXX-X"
+      tuiTextfield
+    />
+  </tui-textfield>
+  <tui-error
+    formControlName="isbn"
+    [error]="[] | tuiFieldError  | async"
+  />
+
+  <tui-radio-list
+    size="s"
+    [items]="statusOptions"
+    [style.flex-direction]="'row'"
+    [style.width]="'max-content'"
+    formControlName="status"
+  />
+
+  <app-date-input [control]="form.controls.publishedDate"></app-date-input>
+  <tui-error
+    formControlName="publishedDate"
+    [error]="[] | tuiFieldError  | async"
+  />
+
+  <footer>
+    <button
+      appearance="secondary"
+      tuiButton
+      type="button"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+    <button
+      tuiButton
+      type="submit"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+  </footer>
+</form>
