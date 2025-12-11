@@ -2,6 +2,7 @@ package org.example.bakcendspring.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -17,7 +18,8 @@ import java.io.InputStream;
 public class ObjectStorageService {
     private final S3Client s3Client;
 
-    private static final String BUCKET_NAME = "petrov-storage";
+    @Value("${app.bucket-name}")
+    private String BUCKET_NAME;
 
     public void sendRequest(String fileName, MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {

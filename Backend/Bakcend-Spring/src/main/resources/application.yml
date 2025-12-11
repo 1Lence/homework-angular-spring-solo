@@ -20,3 +20,4 @@ logging:
 
 app:
   front-url: ${LOCAL_FRONT_URL}
+  bucket-name: ${BUCKET_NAME}
