@@ -13,10 +13,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/books")
-@CrossOrigin(
-        origins = "*",
-        allowedHeaders = "*"
-)
 public class BookController {
     private final BookService bookService;
 

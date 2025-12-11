@@ -1,0 +1,19 @@
+<div class="file-upload-container">
+  <h3>Загрузка файла в Object Storage</h3>
+  <input type="file" (change)="onFileSelected($event)" #fileInput />
+  <button (click)="uploadFile()" [disabled]="!selectedFile">Загрузить</button>
+
+  <!-- Заменяем *ngIf на @if -->
+  @if (uploadProgress !== null) {
+    <div class="progress-bar">
+      Прогресс: {{ uploadProgress }}%
+    </div>
+  }
+
+  <!-- Заменяем *ngIf на @if -->
+  @if (message) {
+    <div class="message" [class.error]="message.includes('Ошибка')">
+      {{ message }}
+    </div>
+  }
+</div>

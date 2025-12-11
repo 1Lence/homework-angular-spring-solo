@@ -60,7 +60,7 @@ export class BookFormComponent {
       const bookData : BookCreateDto = {
         title: this.form.value.title ?? '',
         author: this.form.value.author ?? '',
-        isbn: this.form.value.isbn ?? '',
+        isbn: this.form.value.isbn ?? '978-0-306-40615-7',
         publishedDate: this.form.value.publishedDate?.toLocalNativeDate() ?? new Date(),
         status: this.form.value.status ?? Status.AVAILABLE
       };
