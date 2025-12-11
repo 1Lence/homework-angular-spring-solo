@@ -2,7 +2,7 @@ services:
   library_bd:
     image: postgres:16.0
     ports:
-      - '54320:5432'
+      - '{POSTGRES_DB_PORT}:${POSTGRES_DB_DOCKER_PORT}'
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
